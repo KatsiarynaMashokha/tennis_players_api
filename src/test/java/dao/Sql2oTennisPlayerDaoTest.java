@@ -98,6 +98,11 @@ public class Sql2oTennisPlayerDaoTest {
 
     @Test
     public void deleteAllPlayers() throws Exception {
+        TennisPlayer playerOne = createPlayerOne();
+        TennisPlayer playerTwo = createPlayerTwo();
+        tennisPlayerDao.add(playerOne);
+        tennisPlayerDao.add(playerTwo);
+        tennisPlayerDao.deleteAllPlayers();
+        assertEquals(0, tennisPlayerDao.getAllPlayers().size());
     }
-
 }

@@ -102,6 +102,13 @@ public class Sql2oTennisPlayerDao implements TennisPlayerDao {
 
     @Override
     public void deleteAllPlayers() {
-
+        String sql = "DELETE FROM players";
+        try (Connection conn = sql2o.open()) {
+            conn.createQuery(sql)
+                    .executeUpdate();
+        }
+        catch (Sql2oException ex) {
+            ex.printStackTrace();
+        }
     }
 }
