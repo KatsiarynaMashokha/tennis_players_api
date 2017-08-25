@@ -90,7 +90,14 @@ public class Sql2oTennisPlayerDao implements TennisPlayerDao {
 
     @Override
     public void deletePlayer(int id) {
-
+        String sql = "DELETE from players WHERE id = :id";
+        try (Connection conn = sql2o.open()) {
+            conn.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
