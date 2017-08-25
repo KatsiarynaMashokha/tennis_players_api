@@ -3,14 +3,14 @@ package models;
 public class TennisPlayer extends Player {
     private int id;
     private int ranking;
-    private String country;
+    //private String country;
     private int points;
     private int tournamentsPlayed;
 
-    public TennisPlayer(String name, String gender, int age, int ranking, String country, int points, int tournamentsPlayed) {
+    public TennisPlayer(String name, String gender, int age, int ranking, int points, int tournamentsPlayed) {
         super(name, gender, age);
         this.ranking = ranking;
-        this.country = country;
+        //this.country = country;
         this.points = points;
         this.tournamentsPlayed = tournamentsPlayed;
     }
@@ -20,9 +20,9 @@ public class TennisPlayer extends Player {
         return ranking;
     }
 
-    public String getCountry() {
-        return country;
-    }
+//    public String getCountry() {
+//        return country;
+//    }
 
     public int getPoints() {
         return points;
@@ -41,9 +41,9 @@ public class TennisPlayer extends Player {
         this.ranking = ranking;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
+//    public void setCountry(String country) {
+//        this.country = country;
+//    }
 
     public void setPoints(int points) {
         this.points = points;
@@ -63,13 +63,12 @@ public class TennisPlayer extends Player {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        TennisPlayer that = (TennisPlayer) o;
+        TennisPlayer player = (TennisPlayer) o;
 
-        if (id != that.id) return false;
-        if (ranking != that.ranking) return false;
-        if (points != that.points) return false;
-        if (tournamentsPlayed != that.tournamentsPlayed) return false;
-        return country.equals(that.country);
+        if (id != player.id) return false;
+        if (ranking != player.ranking) return false;
+        if (points != player.points) return false;
+        return tournamentsPlayed == player.tournamentsPlayed;
     }
 
     @Override
@@ -77,7 +76,6 @@ public class TennisPlayer extends Player {
         int result = super.hashCode();
         result = 31 * result + id;
         result = 31 * result + ranking;
-        result = 31 * result + country.hashCode();
         result = 31 * result + points;
         result = 31 * result + tournamentsPlayed;
         return result;

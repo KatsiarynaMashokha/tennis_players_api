@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS players (
     gender CHAR,
     age INTEGER,
     ranking INTEGER,
-    country VARCHAR,
     points INTEGER,
     tournamentsPlayed INTEGER
 );
@@ -25,7 +24,7 @@ CREATE TABLE IF NOT EXISTS players_grand_slam (
 
 CREATE TABLE IF NOT EXISTS countries_players (
     id int PRIMARY KEY auto_increment,
-    country_id INTEGER,
+    country VARCHAR,
     player_id INTEGER
 );
 

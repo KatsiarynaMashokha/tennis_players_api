@@ -1,5 +1,6 @@
 package dao;
 
+import models.Country;
 import models.TennisPlayer;
 import org.junit.After;
 import org.junit.Before;
@@ -30,11 +31,15 @@ public class Sql2oTennisPlayerDaoTest {
 
     // helper to create a new player
     TennisPlayer createPlayerOne() {
-        return new TennisPlayer("Roger Federer", "M", 36, 3, "Switzerland", 7145, 16);
+        return new TennisPlayer("Roger Federer", "M", 36, 3, 7145, 16);
     }
 
     TennisPlayer createPlayerTwo() {
-        return new TennisPlayer("Rafael Nadal", "M", 31, 1, "Spain", 7645, 16);
+        return new TennisPlayer("Rafael Nadal", "M", 31, 1, 7645, 16);
+    }
+
+    TennisPlayer createPlayerThree() {
+        return new TennisPlayer("Stan Wawrinka", "M", 32, 4, 5690, 18);
     }
 
     @Test
@@ -45,6 +50,7 @@ public class Sql2oTennisPlayerDaoTest {
         assertEquals("Roger Federer", player.getName());
         assertEquals(7145, player.getPoints());
     }
+
 
     @Test
     public void getAllPlayers() throws Exception {
@@ -73,6 +79,20 @@ public class Sql2oTennisPlayerDaoTest {
 
     @Test
     public void getAllPlayersForCountry() throws Exception {
+        TennisPlayer playerOne = createPlayerOne();
+        TennisPlayer playerTwo = createPlayerTwo();
+        TennisPlayer playerThree = createPlayerThree();
+        Country countryOne = new Country("Switzerland");
+        Country countryTwo = new Country("Spain");
+        tennisPlayerDao.add(playerOne);
+        tennisPlayerDao.add(playerTwo);
+        tennisPlayerDao.add(playerThree);
+        tennisPlayerDao.addCountryToPlayer(playerOne, countryOne);
+        tennisPlayerDao.addCountryToPlayer(playerTwo, countryTwo);
+        tennisPlayerDao.addCountryToPlayer(playerThree, countryOne);
+        TennisPlayer [] players = {playerOne, playerThree};
+        assertEquals(2, tennisPlayerDao.getAllPlayersForCountry(countryOne.getName()).size());
+        assertEquals(Arrays.asList(players), tennisPlayerDao.getAllPlayersForCountry(countryOne.getName()));
     }
 
     @Test
