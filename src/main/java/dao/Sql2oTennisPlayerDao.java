@@ -74,7 +74,18 @@ public class Sql2oTennisPlayerDao implements TennisPlayerDao {
 
     @Override
     public void update(int playerId, int age, int ranking, int points, int tourn_played) {
-
+        String sql = "UPDATE players SET (age, ranking, points, tournamentsPlayed) = (:age, :ranking, :points, :tournamentsPlayed) WHERE id = :id";
+        try(Connection conn = sql2o.open()) {
+            conn.createQuery(sql)
+                    .addParameter("age", age)
+                    .addParameter("ranking", ranking)
+                    .addParameter("points", points)
+                    .addParameter("tournamentsPlayed", tourn_played)
+                    .addParameter("id", playerId)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

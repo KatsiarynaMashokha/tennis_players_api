@@ -77,6 +77,13 @@ public class Sql2oTennisPlayerDaoTest {
 
     @Test
     public void update() throws Exception {
+        TennisPlayer playerOne = createPlayerOne();
+        tennisPlayerDao.add(playerOne);
+        tennisPlayerDao.update(playerOne.getId(), 37, 1, 7145, 16);
+        TennisPlayer updatedPlayer = tennisPlayerDao.findById(playerOne.getId());
+        assertNotEquals(playerOne, updatedPlayer);
+        assertEquals(37, updatedPlayer.getAge());
+        assertEquals(1, updatedPlayer.getRanking());
     }
 
     @Test
