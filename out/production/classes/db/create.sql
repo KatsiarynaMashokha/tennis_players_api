@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS players (
     ranking INTEGER,
     country VARCHAR,
     points INTEGER,
-    tournaments_played INTEGER
+    tournamentsPlayed INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS grand_clam (
@@ -28,3 +28,4 @@ CREATE TABLE IF NOT EXISTS countries_players (
     country_id INTEGER,
     player_id INTEGER
 );
+

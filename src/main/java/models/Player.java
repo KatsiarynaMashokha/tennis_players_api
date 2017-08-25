@@ -2,10 +2,10 @@ package models;
 
 abstract class Player {
     private String name;
-    private char gender;
+    private String gender;
     private int age;
 
-    public Player(String name, char gender, int age) {
+    public Player(String name, String gender, int age) {
         this.name = name;
         this.gender = gender;
         this.age = age;
@@ -16,7 +16,7 @@ abstract class Player {
         return name;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
@@ -29,7 +29,7 @@ abstract class Player {
         this.name = name;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -44,15 +44,15 @@ abstract class Player {
 
         Player player = (Player) o;
 
-        if (gender != player.gender) return false;
         if (age != player.age) return false;
-        return name.equals(player.name);
+        if (!name.equals(player.name)) return false;
+        return gender.equals(player.gender);
     }
 
     @Override
     public int hashCode() {
         int result = name.hashCode();
-        result = 31 * result + (int) gender;
+        result = 31 * result + gender.hashCode();
         result = 31 * result + age;
         return result;
     }

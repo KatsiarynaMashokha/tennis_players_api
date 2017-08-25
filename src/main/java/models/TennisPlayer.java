@@ -7,7 +7,7 @@ public class TennisPlayer extends Player {
     private int points;
     private int tournamentsPlayed;
 
-    public TennisPlayer(String name, char gender, int age, int ranking, String country, int points, int tournamentsPlayed) {
+    public TennisPlayer(String name, String gender, int age, int ranking, String country, int points, int tournamentsPlayed) {
         super(name, gender, age);
         this.ranking = ranking;
         this.country = country;

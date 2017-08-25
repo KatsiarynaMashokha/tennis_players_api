@@ -17,7 +17,7 @@ public class Sql2oTennisPlayerDao implements TennisPlayerDao {
 
     @Override
     public void add(TennisPlayer player) {
-        String sql = "INSERT INTO players (name, gender, age, ranking, country, points, tournaments_played) values (:name, :gender, :age, :ranking, :country, :points, :tournaments_played)";
+        String sql = "INSERT INTO players (name, gender, age, ranking, country, points, tournamentsPlayed) values (:name, :gender, :age, :ranking, :country, :points, :tournamentsPlayed)";
         try (Connection conn = sql2o.open()) {
            int id = (int) conn.createQuery(sql)
                     .addParameter("name", player.getName())
@@ -26,14 +26,14 @@ public class Sql2oTennisPlayerDao implements TennisPlayerDao {
                     .addParameter("ranking", player.getRanking())
                     .addParameter("country", player.getCountry())
                     .addParameter("points", player.getPoints())
-                    .addParameter("tournaments_played", player.getTournamentsPlayed())
+                    .addParameter("tournamentsPlayed", player.getTournamentsPlayed())
                     .addColumnMapping("NAME", "name")
                     .addColumnMapping("GENDER", "gender")
                     .addColumnMapping("AGE", "age")
                     .addColumnMapping("RANKING", "ranking")
                     .addColumnMapping("COUNTRY", "country")
                     .addColumnMapping("POINTS", "points")
-                    .addColumnMapping("TOURNAMENTS_PLAYED", "tournaments_played")
+                    .addColumnMapping("TOURNAMENTSPLAYED", "tournamentsPlayed")
                     .executeUpdate()
                     .getKey();
            player.setId(id);
@@ -44,16 +44,26 @@ public class Sql2oTennisPlayerDao implements TennisPlayerDao {
 
     @Override
     public List<TennisPlayer> getAllPlayers() {
-        return null;
+        //String sql = "DROP TABLE players";
+        String sql = "SELECT * FROM players";
+        try(Connection conn = sql2o.open()) {
+            return conn.createQuery(sql)
+                    .executeAndFetch(TennisPlayer.class);
+        }
     }
 
     @Override
     public TennisPlayer findById(int playerId) {
-        return null;
+        String sql = "SELECT * FROM players WHERE id = :id";
+        try(Connection conn = sql2o.open()) {
+            return conn.createQuery(sql)
+                    .addParameter("id", playerId)
+                    .executeAndFetchFirst(TennisPlayer.class);
+        }
     }
 
     @Override
-    public List<GrandSlam> getAllTounamentsWonByPlayer(int playerId) {
+    public List<GrandSlam> getAllTournamentsWonByPlayer(int playerId) {
         return null;
     }
 

@@ -14,7 +14,7 @@ public interface TennisPlayerDao {
     // read
     List<TennisPlayer> getAllPlayers();
     TennisPlayer findById(int playerId);
-    List<GrandSlam> getAllTounamentsWonByPlayer(int playerId);
+    List<GrandSlam> getAllTournamentsWonByPlayer(int playerId);
     List<TennisPlayer> getAllPlayersForCountry(int countryId);
 
     // update

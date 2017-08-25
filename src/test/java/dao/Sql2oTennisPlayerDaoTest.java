@@ -6,6 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 public class Sql2oTennisPlayerDaoTest {
@@ -27,13 +30,12 @@ public class Sql2oTennisPlayerDaoTest {
 
     // helper to create a new player
     TennisPlayer createPlayerOne() {
-        return new TennisPlayer("Roger Federer", 'M', 36, 3, "Switzerland", 7145, 16);
+        return new TennisPlayer("Roger Federer", "M", 36, 3, "Switzerland", 7145, 16);
     }
 
     TennisPlayer createPlayerTwo() {
-        return new TennisPlayer("Rafael Nadal", 'M', 31, 1, "Spain", 7645, 16);
+        return new TennisPlayer("Rafael Nadal", "M", 31, 1, "Spain", 7645, 16);
     }
-
 
     @Test
     public void add() throws Exception {
@@ -46,10 +48,23 @@ public class Sql2oTennisPlayerDaoTest {
 
     @Test
     public void getAllPlayers() throws Exception {
+        TennisPlayer playerOne = createPlayerOne();
+        TennisPlayer playerTwo = createPlayerTwo();
+        tennisPlayerDao.add(playerOne);
+        tennisPlayerDao.add(playerTwo);
+        TennisPlayer[] players = {playerOne, playerTwo};
+        assertEquals(2, tennisPlayerDao.getAllPlayers().size());
+        assertEquals(Arrays.asList(players), tennisPlayerDao.getAllPlayers());
     }
 
     @Test
     public void findById() throws Exception {
+        TennisPlayer playerOne = createPlayerOne();
+        TennisPlayer playerTwo = createPlayerTwo();
+        tennisPlayerDao.add(playerOne);
+        tennisPlayerDao.add(playerTwo);
+        TennisPlayer foundPlayer = tennisPlayerDao.findById(playerOne.getId());
+        assertEquals(playerOne, foundPlayer);
     }
 
     @Test
