@@ -1,9 +1,9 @@
 package models;
 
-public class GrandSlamTornaments extends Tournament {
+public class GrandSlam extends Tournament {
     private String date;
 
-    public GrandSlamTornaments(String title, String date) {
+    public GrandSlam(String title, String date) {
         super(title);
         this.date = date;
     }
@@ -24,7 +24,7 @@ public class GrandSlamTornaments extends Tournament {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        GrandSlamTornaments that = (GrandSlamTornaments) o;
+        GrandSlam that = (GrandSlam) o;
 
         return date.equals(that.date);
     }

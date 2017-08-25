@@ -11,15 +11,14 @@ CREATE TABLE IF NOT EXISTS tennis_players (
     tournaments_played INTEGER
 );
 
-CREATE TABLE IF NOT EXISTS grand_clam_tournaments (
+CREATE TABLE IF NOT EXISTS grand_clam (
     id int PRIMARY KEY auto_increment,
     title VARCHAR,
     date VARCHAR
 );
 
-CREATE TABLE IF NOT EXISTS tennis_players_won_tournaments (
+CREATE TABLE IF NOT EXISTS players_grand_slam (
     id int PRIMARY KEY auto_increment,
     player_id INTEGER,
     tournament_id INTEGER
 );
-
