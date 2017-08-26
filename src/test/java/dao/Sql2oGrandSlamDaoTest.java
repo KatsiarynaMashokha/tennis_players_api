@@ -65,10 +65,6 @@ public class Sql2oGrandSlamDaoTest {
     }
 
     @Test
-    public void update() throws Exception {
-    }
-
-    @Test
     public void deleteTourn() throws Exception {
         GrandSlam grandSlamOne = createGrandSlamOne();
         GrandSlam grandSlamTwo = createGrandSlamTwo();
@@ -80,6 +76,12 @@ public class Sql2oGrandSlamDaoTest {
 
     @Test
     public void deleteAllTourn() throws Exception {
+        GrandSlam grandSlamOne = createGrandSlamOne();
+        GrandSlam grandSlamTwo = createGrandSlamTwo();
+        grandSlamDao.add(grandSlamOne);
+        grandSlamDao.add(grandSlamTwo);
+        grandSlamDao.deleteAllTourn();
+        assertEquals(0, grandSlamDao.getAllTornaments().size());
     }
 
 }

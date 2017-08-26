@@ -16,8 +16,6 @@ public interface GrandSlamDao {
     GrandSlam findById(int tournId);
     List<TennisPlayer> getAllPlayersWonTheTournament(int tournId);
 
-    // update
-    void update(int tournId, String date);
 
     // delete
     void deleteTourn(int tournId);

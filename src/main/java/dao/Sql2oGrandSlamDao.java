@@ -57,10 +57,6 @@ public class Sql2oGrandSlamDao implements GrandSlamDao {
         return null;
     }
 
-    @Override
-    public void update(int tournId, String date) {
-
-    }
 
     @Override
     public void deleteTourn(int tournId) {
@@ -80,6 +76,12 @@ public class Sql2oGrandSlamDao implements GrandSlamDao {
 
     @Override
     public void deleteAllTourn() {
-
+        String sql = "DELETE FROM grand_slam";
+        try(Connection conn = sql2o.open()) {
+            conn.createQuery(sql)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            ex.printStackTrace();
+        }
     }
 }
