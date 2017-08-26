@@ -35,7 +35,11 @@ public class Sql2oGrandSlamDao implements GrandSlamDao {
 
     @Override
     public List<GrandSlam> getAllTornaments() {
-        return null;
+        String sql = "SELECT * FROM grand_slam";
+        try(Connection conn = sql2o.open()) {
+            return conn.createQuery(sql)
+                    .executeAndFetch(GrandSlam.class);
+        }
     }
 
     @Override
