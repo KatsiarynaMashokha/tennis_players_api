@@ -64,7 +64,18 @@ public class Sql2oGrandSlamDao implements GrandSlamDao {
 
     @Override
     public void deleteTourn(int tournId) {
-
+        String sql = "DELETE FROM grand_slam WHERE id = :id";
+        String joinSql = "DELETE FROM players_grand_slam WHERE tournament_id = :tournament_id";
+        try (Connection conn = sql2o.open()) {
+            conn.createQuery(sql)
+                    .addParameter("id", tournId)
+                    .executeUpdate();
+            conn.createQuery(joinSql)
+                    .addParameter("tournament_id", tournId)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

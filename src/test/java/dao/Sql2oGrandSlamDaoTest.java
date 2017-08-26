@@ -61,6 +61,7 @@ public class Sql2oGrandSlamDaoTest {
 
     @Test
     public void getAllPlayersWonTheTournament() throws Exception {
+
     }
 
     @Test
@@ -69,6 +70,12 @@ public class Sql2oGrandSlamDaoTest {
 
     @Test
     public void deleteTourn() throws Exception {
+        GrandSlam grandSlamOne = createGrandSlamOne();
+        GrandSlam grandSlamTwo = createGrandSlamTwo();
+        grandSlamDao.add(grandSlamOne);
+        grandSlamDao.add(grandSlamTwo);
+        grandSlamDao.deleteTourn(grandSlamOne.getId());
+        assertEquals(1, grandSlamDao.getAllTornaments().size());
     }
 
     @Test
