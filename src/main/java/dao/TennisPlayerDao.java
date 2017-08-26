@@ -12,6 +12,7 @@ public interface TennisPlayerDao {
     // create
     void add(TennisPlayer player);
     void addCountryToPlayer(TennisPlayer player, Country country);
+    void addPlayerToTournament(TennisPlayer player, GrandSlam grandSlam);
 
     // read
     List<TennisPlayer> getAllPlayers();

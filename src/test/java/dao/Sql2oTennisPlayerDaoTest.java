@@ -1,6 +1,7 @@
 package dao;
 
 import models.Country;
+import models.GrandSlam;
 import models.TennisPlayer;
 import org.junit.After;
 import org.junit.Before;
@@ -14,6 +15,7 @@ import static org.junit.Assert.*;
 
 public class Sql2oTennisPlayerDaoTest {
     private Sql2oTennisPlayerDao tennisPlayerDao;
+    private Sql2oGrandSlamDao grandSlamDao;
     private Connection conn;
 
     @Before
@@ -21,6 +23,7 @@ public class Sql2oTennisPlayerDaoTest {
         String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:db/create.sql'";
         Sql2o sql2o = new Sql2o(connectionString, "", "");
         tennisPlayerDao = new Sql2oTennisPlayerDao(sql2o);
+        grandSlamDao = new Sql2oGrandSlamDao(sql2o);
         conn = sql2o.open();
     }
 
@@ -42,6 +45,14 @@ public class Sql2oTennisPlayerDaoTest {
         return new TennisPlayer("Stan Wawrinka", "M", 32, 4, 5690, 18);
     }
 
+    GrandSlam createGrandSlamOne() {
+        return new GrandSlam("US Open", "September");
+    }
+
+    GrandSlam createGrandSlamTwo() {
+        return new GrandSlam("Australian Open", "January");
+    }
+
     @Test
     public void add() throws Exception {
         TennisPlayer player = createPlayerOne();
@@ -50,7 +61,6 @@ public class Sql2oTennisPlayerDaoTest {
         assertEquals("Roger Federer", player.getName());
         assertEquals(7145, player.getPoints());
     }
-
 
     @Test
     public void getAllPlayers() throws Exception {
@@ -74,10 +84,6 @@ public class Sql2oTennisPlayerDaoTest {
     }
 
     @Test
-    public void getAllTounamentsWonByPlayer() throws Exception {
-    }
-
-    @Test
     public void getAllPlayersForCountry() throws Exception {
         TennisPlayer playerOne = createPlayerOne();
         TennisPlayer playerTwo = createPlayerTwo();
@@ -93,6 +99,21 @@ public class Sql2oTennisPlayerDaoTest {
         TennisPlayer [] players = {playerOne, playerThree};
         assertEquals(2, tennisPlayerDao.getAllPlayersForCountry(countryOne.getName()).size());
         assertEquals(Arrays.asList(players), tennisPlayerDao.getAllPlayersForCountry(countryOne.getName()));
+    }
+
+    @Test
+    public void getAllTournamentsWonByPlayer() throws Exception {
+        TennisPlayer playerOne = createPlayerOne();
+        tennisPlayerDao.add(playerOne);
+        GrandSlam grandSlamOne = createGrandSlamOne();
+        grandSlamDao.add(grandSlamOne);
+        GrandSlam grandSlamTwo = createGrandSlamTwo();
+        grandSlamDao.add(grandSlamTwo);
+        tennisPlayerDao.addPlayerToTournament(playerOne, grandSlamOne);
+        tennisPlayerDao.addPlayerToTournament(playerOne, grandSlamTwo);
+        GrandSlam[] slams = {grandSlamOne, grandSlamTwo};
+        assertEquals(2, tennisPlayerDao.getAllTournamentsWonByPlayer(playerOne.getId()).size());
+        assertEquals(Arrays.asList(slams), tennisPlayerDao.getAllTournamentsWonByPlayer(playerOne.getId()));
     }
 
     @Test

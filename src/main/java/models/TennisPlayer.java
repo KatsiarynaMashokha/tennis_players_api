@@ -3,14 +3,12 @@ package models;
 public class TennisPlayer extends Player {
     private int id;
     private int ranking;
-    //private String country;
     private int points;
     private int tournamentsPlayed;
 
     public TennisPlayer(String name, String gender, int age, int ranking, int points, int tournamentsPlayed) {
         super(name, gender, age);
         this.ranking = ranking;
-        //this.country = country;
         this.points = points;
         this.tournamentsPlayed = tournamentsPlayed;
     }
@@ -19,10 +17,6 @@ public class TennisPlayer extends Player {
     public int getRanking() {
         return ranking;
     }
-
-//    public String getCountry() {
-//        return country;
-//    }
 
     public int getPoints() {
         return points;
@@ -40,10 +34,6 @@ public class TennisPlayer extends Player {
     public void setRanking(int ranking) {
         this.ranking = ranking;
     }
-
-//    public void setCountry(String country) {
-//        this.country = country;
-//    }
 
     public void setPoints(int points) {
         this.points = points;

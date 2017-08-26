@@ -51,7 +51,20 @@ public class Sql2oTennisPlayerDao implements TennisPlayerDao {
                     .addParameter("player_id", player.getId())
                     .executeUpdate();
         } catch (Sql2oException ex) {
-            System.out.println(ex);
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void addPlayerToTournament(TennisPlayer player, GrandSlam grandSlam) {
+        String sql = "INSERT INTO players_grand_slam (player_id, tournament_id) VALUES (:player_id, :tournament_id)";
+        try (Connection conn = sql2o.open()) {
+            conn.createQuery(sql)
+                    .addParameter("player_id", player.getId())
+                    .addParameter("tournament_id", grandSlam.getId())
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -77,7 +90,24 @@ public class Sql2oTennisPlayerDao implements TennisPlayerDao {
 
     @Override
     public List<GrandSlam> getAllTournamentsWonByPlayer(int playerId) {
-        return null;
+        List<GrandSlam> slams = new ArrayList<>();
+        String joinQuery = "SELECT tournament_id FROM players_grand_slam WHERE player_id = :player_id";
+        try (Connection conn = sql2o.open()) {
+            List<Integer> allTournId = conn.createQuery(joinQuery)
+                    .addParameter("player_id", playerId)
+                    .executeAndFetch(Integer.class);
+            for (Integer tournId : allTournId) {
+                String tournQuery = "SELECT * FROM grand_slam WHERE id = :tournament_id";
+                slams.add(
+                        conn.createQuery(tournQuery)
+                        .addParameter("tournament_id", tournId)
+                        .executeAndFetchFirst(GrandSlam.class));
+            }
+        } catch (Sql2oException ex) {
+            ex.printStackTrace();
+
+        }
+        return slams;
     }
 
     @Override
@@ -88,7 +118,6 @@ public class Sql2oTennisPlayerDao implements TennisPlayerDao {
         try(Connection conn = sql2o.open()) {
             List<Integer> allPlayersId = conn.createQuery(joinQuery)
                     .addParameter("country", country)
-                    //.addColumnMapping("PLAYER_ID", "player_id")
                     .executeAndFetch(Integer.class);
             for (Integer playerId : allPlayersId) {
                 String playersQuery = "SELECT * FROM players WHERE id = :player_id";

@@ -10,6 +10,7 @@ public interface GrandSlamDao {
     // create
     void add(GrandSlam grandSlam);
 
+
     // read
     List<GrandSlam> getAllTornaments();
     GrandSlam findById(int tournId);

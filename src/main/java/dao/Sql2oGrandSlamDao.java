@@ -2,7 +2,9 @@ package dao;
 
 import models.GrandSlam;
 import models.TennisPlayer;
+import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
 
 import java.util.List;
 
@@ -15,6 +17,19 @@ public class Sql2oGrandSlamDao implements GrandSlamDao {
 
     @Override
     public void add(GrandSlam grandSlam) {
+        String sql = "INSERT INTO grand_slam (title, date) VALUES (:title, :date)";
+        try(Connection conn = sql2o.open()) {
+            int id = (int) conn.createQuery(sql)
+                    .addParameter("title", grandSlam.getTitle())
+                    .addParameter("date", grandSlam.getDate())
+                    .addColumnMapping("TITLE", "title")
+                    .addColumnMapping("DATE", "date")
+                    .executeUpdate()
+                    .getKey();
+            grandSlam.setId(id);
+        } catch (Sql2oException ex) {
+            ex.printStackTrace();
+        }
 
     }
 

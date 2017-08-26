@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS players (
     tournamentsPlayed INTEGER
 );
 
-CREATE TABLE IF NOT EXISTS grand_clam (
+CREATE TABLE IF NOT EXISTS grand_slam (
     id int PRIMARY KEY auto_increment,
     title VARCHAR,
     date VARCHAR
