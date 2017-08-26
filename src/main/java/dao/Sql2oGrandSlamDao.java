@@ -44,7 +44,12 @@ public class Sql2oGrandSlamDao implements GrandSlamDao {
 
     @Override
     public GrandSlam findById(int tournId) {
-        return null;
+        String sql = "SELECT * FROM grand_slam WHERE id = :id";
+        try(Connection conn = sql2o.open()) {
+            return conn.createQuery(sql)
+                    .addParameter("id", tournId)
+                    .executeAndFetchFirst(GrandSlam.class);
+        }
     }
 
     @Override

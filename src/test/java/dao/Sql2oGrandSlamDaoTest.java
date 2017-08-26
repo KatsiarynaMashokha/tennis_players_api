@@ -51,6 +51,12 @@ public class Sql2oGrandSlamDaoTest {
 
     @Test
     public void findById() throws Exception {
+        GrandSlam grandSlamOne = createGrandSlamOne();
+        GrandSlam grandSlamTwo = createGrandSlamTwo();
+        grandSlamDao.add(grandSlamOne);
+        grandSlamDao.add(grandSlamTwo);
+        GrandSlam foundTournament = grandSlamDao.findById(grandSlamOne.getId());
+        assertEquals(grandSlamOne, foundTournament);
     }
 
     @Test
