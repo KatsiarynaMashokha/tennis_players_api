@@ -6,6 +6,7 @@ import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sql2oGrandSlamDao implements GrandSlamDao {
@@ -34,6 +35,19 @@ public class Sql2oGrandSlamDao implements GrandSlamDao {
     }
 
     @Override
+    public void addTournamentToPlayer(GrandSlam grandSlam, TennisPlayer player) {
+        String sql = "INSERT INTO players_grand_slam (player_id, tournament_id) VALUES (:player_id, :tournament_id)";
+        try(Connection conn = sql2o.open()) {
+            conn.createQuery(sql)
+                    .addParameter("player_id", player.getId())
+                    .addParameter("tournament_id", grandSlam.getId())
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
     public List<GrandSlam> getAllTornaments() {
         String sql = "SELECT * FROM grand_slam";
         try(Connection conn = sql2o.open()) {
@@ -54,7 +68,21 @@ public class Sql2oGrandSlamDao implements GrandSlamDao {
 
     @Override
     public List<TennisPlayer> getAllPlayersWonTheTournament(int tournId) {
-        return null;
+        List<TennisPlayer> players = new ArrayList<>();
+        String joinQuery = "SELECT player_id FROM players_grand_slam WHERE tournament_id = :tournament_id";
+        try(Connection conn = sql2o.open()) {
+            List<Integer> playersId = conn.createQuery(joinQuery)
+                    .addParameter("tournament_id", tournId)
+                    .executeAndFetch(Integer.class);
+            for (Integer playerId : playersId) {
+                String sql = "SELECT * FROM players WHERE id = :id";
+                players.add(conn.createQuery(sql)
+                        .addParameter("id", playerId)
+                        .executeAndFetchFirst(TennisPlayer.class));
+            }
+        } catch (Sql2oException ex) {
+            ex.printStackTrace();
+        } return players;
     }
 
 

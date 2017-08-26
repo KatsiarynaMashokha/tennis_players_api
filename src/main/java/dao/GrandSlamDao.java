@@ -9,6 +9,7 @@ public interface GrandSlamDao {
 
     // create
     void add(GrandSlam grandSlam);
+    void addTournamentToPlayer(GrandSlam grandSlam, TennisPlayer player);
 
 
     // read
