@@ -2,6 +2,7 @@ import com.google.gson.Gson;
 import dao.Sql2oGrandSlamDao;
 import dao.Sql2oTennisPlayerDao;
 import dao.TennisPlayerDao;
+import models.Country;
 import models.GrandSlam;
 import models.TennisPlayer;
 import org.sql2o.Connection;
@@ -34,11 +35,28 @@ public class Main {
             return gson.toJson(player);
         });
 
-        //TODO
-        // add a country to a players
+        // add a country to a player
+        post("/players/:id/country/:countryName", "application/json", (request, response) -> {
+            int playerId = Integer.parseInt(request.params("id"));
+            String countryName = request.params("countryName");
+            TennisPlayer player = tennisPlayerDao.findById(playerId);
+            Country country = new Country(countryName);
+            tennisPlayerDao.addCountryToPlayer(player, country);
+            response.status(201);
+            return gson.toJson(country);
+        });
 
-        //TODO
-        // add a player to tournament
+        // add a player to a tournament
+        post("/players/:id/tournaments/:tournamentId", "application/json", (request, response) -> {
+            int playerId = Integer.parseInt(request.params("id"));
+            int tournmId = Integer.parseInt(request.params("tournamentId"));
+            TennisPlayer player = tennisPlayerDao.findById(playerId);
+            GrandSlam tournament = grandSlamDao.findById(tournmId);
+            tennisPlayerDao.addPlayerToTournament(player, tournament);
+            response.status(201);
+            return gson.toJson(player);
+        });
+
 
         // READ
         // all players
@@ -55,12 +73,20 @@ public class Main {
             return gson.toJson(player);
         });
 
-        //TODO
         // get all tournaments won by a player
+        get("/players/:id/tournaments", "application/json", (request, response) -> {
+            int playerId = Integer.parseInt(request.params("id"));
+            List<GrandSlam> tournaments = tennisPlayerDao.getAllTournamentsWonByPlayer(playerId);
+            return gson.toJson(tournaments);
+        });
 
 
-        // TODO
         // get all players for a country
+        get("/players/country/:countryName", "application/json", (request, response) -> {
+            String country = request.params("countryName");
+            List<TennisPlayer> players = tennisPlayerDao.getAllPlayersForCountry(country);
+            return gson.toJson(players);
+        });
 
         // UPDATE
         post("/players/:id/update", "applciation/json", (request, response) -> {
@@ -95,8 +121,15 @@ public class Main {
             return gson.toJson(tournament);
         });
 
-        // TODO:
         // add a tournament to a player
+        post("/tournaments/:tournId/players/id", "application/json", (request, response) -> {
+            int tournId = Integer.parseInt(request.params("tournId"));
+            GrandSlam tournament = grandSlamDao.findById(tournId);
+            int playerId = Integer.parseInt(request.params("id"));
+            TennisPlayer player = tennisPlayerDao.findById(playerId);
+            grandSlamDao.addTournamentToPlayer(tournament, player);
+            return gson.toJson(tournament);
+        });
 
         //READ
         // all tournaments
@@ -113,8 +146,12 @@ public class Main {
             return gson.toJson(tournament);
         });
 
-        // TODO:
         // get all players won the tournament
+        get("/tournaments/:tournId/players", "applciation/json", (request, response) -> {
+            int tournId = Integer.parseInt(request.params("tournId"));
+            List<TennisPlayer> players = grandSlamDao.getAllPlayersWonTheTournament(tournId);
+            return gson.toJson(players);
+        });
 
         //DELETE
         // single tournament
