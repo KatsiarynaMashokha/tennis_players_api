@@ -3,11 +3,11 @@
 #### By _**Katsiaryna Mashokha**_
 ## Description
 This api give an ability to perform different operations on tennis players: addition of a new player, browse through all players, adding a tournament, mark a tournament won by player and etc. Below there are a couple of examples showing the functionality of the giveb api with the tool Postman:
-1) Add a new player: ![Alt text] (public/img/addAPlayer.png)
-2) See a particular player: ![Alt text] (public/img/player.png)
-3) Get all players for a given country:  ![Alt text] (public/img/getAllPlayers.png)
-4) Updating a player: ![Alt text] (public/img/update.png)
-5) Show all tournaments ![Alt text] (public/img/allTournaments.png)
+1) Add a new player: ![Alt text](img/addAPlayer.png)
+2) See a particular player: ![Alt text](img/player.png)
+3) Get all players for a given country:  ![Alt text](img/getAllPlayers.png)
+4) Updating a player: ![Alt text](img/update.png)
+5) Show all tournaments ![Alt text](img/allTournaments.png)
 
 ## Development Specifications
 | Behavior      | Example Input         | Example Output        |
